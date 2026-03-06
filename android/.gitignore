@@ -1,0 +1,43 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub/
+build/
+.generated/
+.idea/
+.vscode/
+*.iml
+
+# Flutter plugins
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Gradle/Android
+gradle-wrapper.jar
+/.gradle
+/captures/
+/gradlew
+/gradlew.bat
+/local.properties
+GeneratedPluginRegistrant.java
+.cxx/
+
+# Firebase / iOS / Android secrets
+google-services.json
+GoogleService-Info.plist
+key.properties
+**/*.keystore
+**/*.jks
+**/*.p12
+**/*.pem
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage & misc
+coverage/
+*.lock

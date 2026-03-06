@@ -1,0 +1,53 @@
+name: Gatherly
+description: "Church management app for small to medium churches."
+
+publish_to: 'none' # Private package
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Cupertino icons
+  cupertino_icons: ^1.0.8
+
+  # Firebase
+  firebase_core: ^2.30.0
+  cloud_firestore: ^4.17.5
+  firebase_auth: ^4.17.8
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # URL launcher
+  url_launcher: ^6.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_launcher_icons: ^0.14.4
+  flutter_lints: ^6.0.0
+
+# Flutter launcher icons config
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/pic1 (1).png"        # your main PNG
+  adaptive_icon_background: "#ffffff"           # optional background color for Android
+  adaptive_icon_foreground: "assets/pic1 (1).png" # foreground icon for Android adaptive icons
+
+# Flutter main settings
+flutter:
+  uses-material-design: true
+
+  # Add your assets here
+  assets:
+  
+    - assets/pic1 (1).png
+
+  
