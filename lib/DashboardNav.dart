@@ -1,6 +1,6 @@
 import 'package:Gatherly/adminDashboard.dart';
 import 'package:Gatherly/adminScreen.dart';
-import 'package:Gatherly/announcemet.dart';
+import 'package:Gatherly/announcement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

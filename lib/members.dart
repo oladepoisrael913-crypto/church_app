@@ -28,7 +28,7 @@ class Member {
       'name': name,
       'phone': phone,
       'department': department,
-      'role': role,
+      'role':  'member',
     };
   }
 }

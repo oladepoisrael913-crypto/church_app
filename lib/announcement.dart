@@ -1,7 +1,7 @@
 import 'package:Gatherly/member_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'eventScreen.dart';
 
 class AnnouncementsScreen extends ConsumerWidget {
   const AnnouncementsScreen({super.key});
@@ -27,6 +27,12 @@ class AnnouncementsScreen extends ConsumerWidget {
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EventsScreen(),
+                          ),
+                        );
                         // Navigate to Edit Announcement Screen
                       },
                     ),
@@ -49,8 +55,9 @@ class AnnouncementsScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text(e.toString())),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("Add Announcement"),
+        icon: const Icon(Icons.add),
         onPressed: () {
           // Navigate to Create Announcement Screen
         },

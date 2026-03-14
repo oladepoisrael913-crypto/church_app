@@ -10,6 +10,7 @@ class MemberTile extends ConsumerWidget {
   final String name;
   final String phone;
   final String department;
+  final String? role;
 
   const MemberTile({
     super.key,
@@ -17,6 +18,7 @@ class MemberTile extends ConsumerWidget {
     required this.name,
     required this.phone,
     required this.department,
+    this.role,
   });
 
   @override
@@ -25,7 +27,7 @@ class MemberTile extends ConsumerWidget {
       key: ValueKey(docId),
       direction: DismissDirection.endToStart,
       background: Container(
-        color: Color.fromARGB(255, 8, 2, 26),
+        color:Theme.of(context).colorScheme.primary,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Icon(Icons.delete, color: Colors.white),
@@ -65,7 +67,7 @@ class MemberTile extends ConsumerWidget {
             },
         
             title: Text(name),
-            subtitle: Text('$phone - $department'),
+            subtitle: Text('$phone - $department - $role'),
         
             // Tap to edit
             onTap: () => Navigator.push(
@@ -73,9 +75,10 @@ class MemberTile extends ConsumerWidget {
               MaterialPageRoute(
                 builder: (_) => AddMemberScreen(
                   name: name,
+                  role: role,
                   phone: phone,
                   department: department,
-                  docId: docId, // Pass docId for editing
+                  docId: docId, 
                 ),
               ),
             ),

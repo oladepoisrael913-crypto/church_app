@@ -1,13 +1,9 @@
 import 'package:Gatherly/roleRouter.dart';
-
-import 'package:Gatherly/SignUpScreen.dart';
 import 'package:Gatherly/textfield.dart';
 import 'package:Gatherly/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-
 
 final loginLoadingProvider = StateProvider<bool>((ref) => false);
 final obscurePasswordProvider = StateProvider<bool>((ref) => true);
@@ -41,34 +37,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       return;
     }
 
-    this.ref.read(loginLoadingProvider.notifier).state = true;
+    ref.read(loginLoadingProvider.notifier).state = true;
 
     try {
-      print('Attempting login with email: $email');
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      if (!mounted) return;
 
-      print('Firebase login returned user: ${userCredential.user}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login Successful!')),
+      );
 
-      if (userCredential.user != null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Login Successful!')));
-
-        // Navigate to Member screen only if user is not null
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => RoleRouter()),
-        );
-      } else {
-        print('Login failed: userCredential.user is null');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login failed. Try again.')),
-        );
-      }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const RoleRouter()),
+      );
     } on FirebaseAuthException catch (e) {
-      print('FirebaseAuthException: ${e.code}');
       String errorMsg = 'Login failed. Please try again.';
       if (e.code == 'user-not-found') {
         errorMsg = 'No user found for that email.';
@@ -78,36 +65,42 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         errorMsg = 'Invalid email format.';
       }
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(errorMsg)));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMsg)),
+      );
     } catch (e) {
-      print('Other exception: $e');
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('An error occurred, try again.')),
       );
     } finally {
-      this.ref.read(loginLoadingProvider.notifier).state = false;
+      ref.read(loginLoadingProvider.notifier).state = false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text(
+          "Admin Login",
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+      ),
+
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // FlutterLogo( size: 20,),
-                // Icon(
-                //   Icons.person,
-                //   size: 150,
-                //   color: Theme.of(context).colorScheme.inversePrimary,
-                // ),
-                // const SizedBox(height: 20),
                 Text(
                   "L O G I N",
                   style: TextStyle(
@@ -117,6 +110,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 40),
+
+                // Email field
                 MyTextfield(
                   obscuretext: false,
                   controller: emailController,
@@ -125,25 +120,29 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   onChanged: (value) {},
                 ),
                 const SizedBox(height: 20),
+
+                // Password field
                 MyTextfield(
-                  obscuretext: this.ref.watch(obscurePasswordProvider),
+                  obscuretext: ref.watch(obscurePasswordProvider),
                   controller: passwordController,
                   hintText: "Enter your password",
                   suffixIcon: IconButton(
                     icon: Icon(
-                      this.ref.watch(obscurePasswordProvider)
+                      ref.watch(obscurePasswordProvider)
                           ? Icons.visibility_off
                           : Icons.visibility,
                     ),
                     onPressed: () {
-                      this.ref.read(obscurePasswordProvider.notifier).state =
-                          !this.ref.read(obscurePasswordProvider);
+                      ref.read(obscurePasswordProvider.notifier).state =
+                          !ref.read(obscurePasswordProvider);
                     },
                   ),
                   onChanged: (value) {},
                 ),
                 const SizedBox(height: 20),
-                this.ref.watch(loginLoadingProvider)
+
+                // Login button or loading spinner
+                ref.watch(loginLoadingProvider)
                     ? const CircularProgressIndicator()
                     : MyButton(
                         text: "Login",
@@ -153,30 +152,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           color: Theme.of(context).colorScheme.surface,
                         ),
                       ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Don't have an account? "),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignUpPage(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),

@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:Gatherly/textfield.dart';
 import 'package:Gatherly/button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:Gatherly/loginScreen.dart';
-import 'package:Gatherly/forgotPasswordPage.dart';
-import 'package:flutter/material.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
@@ -77,7 +75,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             'firstname': firstname,
             'lastname': lastname,
             'email': email,
-            'password': password,
+            'role': 'member',
             'createdAt': FieldValue.serverTimestamp(),
           });
 
@@ -119,7 +117,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
       appBar: AppBar(
         leading: IconButton(
           color: Theme.of(context).colorScheme.primary,
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -214,27 +212,27 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                       ),
                 const SizedBox(height: 20),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForgotPasswordPage(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 36, 21, 83),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     GestureDetector(
+                //       onTap: () {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => ForgotPasswordPage(),
+                //           ),
+                //         );
+                //       },
+                //       child: Text(
+                //         "Forgot Password?",
+                //         style: TextStyle(
+                //           color: const Color.fromARGB(255, 36, 21, 83),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
