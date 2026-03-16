@@ -31,7 +31,7 @@ class _MemberScreenState extends ConsumerState<MemberScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Church Members",
+                  "Members",
                   style: TextStyle(color: Colors.white),
                 ),
                 Text(

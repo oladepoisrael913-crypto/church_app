@@ -77,7 +77,7 @@ class MemberTile extends ConsumerWidget {
                   name: name,
                   role: role,
                   phone: phone,
-                  department: department,
+                  depa rtment: department,
                   docId: docId, 
                 ),
               ),
