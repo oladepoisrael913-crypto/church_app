@@ -57,7 +57,7 @@ Prerequisites
 
 1. Clone the repository:
 bash
-git clone https://github.com/OladepoIsrael913-crypto/gatherly.git
+git clone https://github.com/oladepoisrael913-crypto/gatherly.git
 cd gatherly
 
 
