@@ -23,7 +23,6 @@ class _MemberScreenState extends ConsumerState<MemberScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
         elevation: 0,
-
         title: membersAsync.when(
           data: (members) {
             final count = members.length;
@@ -42,45 +41,15 @@ class _MemberScreenState extends ConsumerState<MemberScreen> {
             );
           },
           loading: () => const Text(
-            "Church Members",
+            "Members",
             style: TextStyle(color: Colors.white),
           ),
           error: (_, __) => const Text(
-            "Church Members",
+            "Members",
             style: TextStyle(color: Colors.white),
           ),
         ),
-
-        // 3-dot menu — Admin only
-        // actions: [
-        //   InkWell(
-        //     child: PopupMenuButton<String>(
-        //       icon: const Icon(Icons.more_vert, color: Colors.white),
-        //       constraints:BoxConstraints( minWidth: 150, maxWidth: 200 ),
-        //       onSelected: (value) {
-        //         if (value == 'admin') {
-        //           Navigator.push(
-        //             context,
-        //             MaterialPageRoute(builder: (_) => const LoginPage()),
-        //           );
-        //         }
-        //       },
-        //       itemBuilder: (context) => [
-        //         const PopupMenuItem(
-        //           value: 'admin',
-        //           child: Row(
-        //             children: [
-        //               Icon(Icons.person, color: Colors.black),
-        //               SizedBox(width: 8),
-        //               Text('Admin'),
-        //             ],
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
       ),
-
       body: Column(
         children: [
           const SizedBox(height: 20),
@@ -130,9 +99,9 @@ class _MemberScreenState extends ConsumerState<MemberScreen> {
                 }
 
                 final filteredMembers = members.where((member) {
-                  return member.name.toLowerCase().contains(
-                    searchQuery.toLowerCase(),
-                  );
+                  return member.name
+                      .toLowerCase()
+                      .contains(searchQuery.toLowerCase());
                 }).toList();
 
                 if (filteredMembers.isEmpty) {
@@ -159,16 +128,15 @@ class _MemberScreenState extends ConsumerState<MemberScreen> {
           ),
         ],
       ),
-
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.person_add),
         label: const Text("Add Member"),
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => const AddMemberScreen(
-              
-            )),
+            MaterialPageRoute(
+              builder: (_) => const AddMemberScreen(),
+            ),
           );
         },
       ),

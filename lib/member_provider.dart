@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-
 /// Firestore instance provider
 final firestoreProvider = Provider<FirebaseFirestore>((ref) {
   return FirebaseFirestore.instance;
@@ -36,12 +34,16 @@ final membersProvider = StreamProvider<List<Member>>((ref) {
   final firestore = ref.watch(firestoreProvider);
 
   return firestore.collection('members').snapshots().map((snapshot) {
-    return snapshot.docs.map((doc) => Member.fromMap(doc.id, doc.data())).toList();
+    return snapshot.docs
+        .map((doc) => Member.fromMap(doc.id, doc.data()))
+        .toList();
   });
 });
-// announcements provider
+
+/// Events provider
 final eventsProvider = StreamProvider<List<Event>>((ref) {
   final firestore = ref.watch(firestoreProvider);
+
   return firestore
       .collection('events')
       .orderBy('date')
@@ -50,8 +52,11 @@ final eventsProvider = StreamProvider<List<Event>>((ref) {
           .map((doc) => Event.fromMap(doc.id, doc.data()))
           .toList());
 });
+
+/// Announcements provider
 final announcementsProvider = StreamProvider<List<Announcement>>((ref) {
   final firestore = ref.watch(firestoreProvider);
+
   return firestore
       .collection('announcements')
       .orderBy('createdAt', descending: true)
@@ -60,3 +65,15 @@ final announcementsProvider = StreamProvider<List<Announcement>>((ref) {
           .map((doc) => Announcement.fromMap(doc.id, doc.data()))
           .toList());
 });
+
+// /// Birthday picker
+// Future<DateTime?> pickBirthday(BuildContext context) async {
+//   final picked = await showDatePicker(
+//     context: context,
+//     initialDate: DateTime(2000),
+//     firstDate: DateTime(1950),
+//     lastDate: DateTime.now(),
+//   );
+
+//   return picked;
+// }

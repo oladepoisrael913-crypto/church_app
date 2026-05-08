@@ -1,9 +1,11 @@
+
 class Member {
   final String docId;
   final String name;
   final String phone;
   final String department;
   final String role;
+  // final DateTime? birthday;
 
   Member({
     required this.docId,
@@ -11,6 +13,7 @@ class Member {
     required this.phone,
     required this.department,
     required this.role,
+    // this.birthday,
   });
 
   factory Member.fromMap(String id, Map<String, dynamic> data) {
@@ -20,6 +23,9 @@ class Member {
       phone: data['phone'] ?? '',
       department: data['department'] ?? '',
       role: data['role'] ?? 'member',
+      // birthday: data['birthday'] != null
+      //     ? (data['birthday'] as Timestamp).toDate()
+      //     : null,
     );
   }
 
@@ -28,7 +34,8 @@ class Member {
       'name': name,
       'phone': phone,
       'department': department,
-      'role':  'member',
+      'role': role,
+      // 'birthday': birthday != null ? Timestamp.fromDate(birthday!) : null,
     };
   }
 }

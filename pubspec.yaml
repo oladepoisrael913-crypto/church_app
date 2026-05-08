@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.19.0
 
   # Cupertino icons
   cupertino_icons: ^1.0.8
@@ -25,6 +26,7 @@ dependencies:
 
   # URL launcher
   url_launcher: ^6.3.2
+  flutter_local_notifications: ^21.0.0
 
 dev_dependencies:
   flutter_test:
@@ -45,8 +47,9 @@ flutter_icons:
 flutter:
   uses-material-design: true
 
+flutter_local_notifications: ^17.0.0
   # Add your assets here
-  assets:
+assets:
   
     - assets/pic1 (1).png
 
