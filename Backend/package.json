@@ -1,0 +1,31 @@
+{
+  "name": "church_app",
+  "version": "1.0.0",
+  "description": "> Flutter • Firebase • Riverpod • Dart\r > \r  Project Overview",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oladepoisrael913-crypto/church_app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/oladepoisrael913-crypto/church_app/issues"
+  },
+  "homepage": "https://github.com/oladepoisrael913-crypto/church_app#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.6.0",
+    "mongoose": "^9.10.1"
+  }
+}

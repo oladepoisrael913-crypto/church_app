@@ -29,6 +29,8 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
   late TextEditingController _departmentController;
   late TextEditingController _roleController;
 
+  bool _isSaving = false;
+
   @override
   void initState() {
     super.initState();
@@ -62,12 +64,14 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
       return;
     }
 
+    setState(() => _isSaving = true);
+    debugPrint('AddMemberScreen: starting save, docId=${widget.docId}');
+
     try {
       final firestore = ref.read(firestoreProvider);
       final collection = firestore.collection('members');
 
       if (widget.docId != null) {
-        // update it
         await collection.doc(widget.docId).update({
           'name': name,
           'phone': phone,
@@ -76,7 +80,6 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
           'updatedAt': FieldValue.serverTimestamp(),
         });
       } else {
-        //  New member — create a new document
         await collection.add({
           'name': name,
           'phone': phone,
@@ -86,24 +89,34 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
         });
       }
 
-      // After successful save
-Navigator.pop(context); 
-    } catch (e) {
+      debugPrint(
+        'AddMemberScreen: save succeeded, mounted=$mounted, '
+        'canPop=${mounted ? Navigator.canPop(context) : "N/A (unmounted)"}',
+      );
+
+      if (!mounted) return;
+      Navigator.pop(context);
+      debugPrint('AddMemberScreen: Navigator.pop(context) called');
+    } catch (e, st) {
+      debugPrint('AddMemberScreen: save/pop threw: $e');
+      debugPrint('$st');
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Error saving member: $e')));
+    } finally {
+      if (mounted) {
+        setState(() => _isSaving = false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final isEditing = widget.docId != null;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          // Navigation.push(context, MaterialPageRoute(builder: (_) => const MemberScreen())),
           color: Colors.white,
           onPressed: () => Navigator.pop(context),
         ),
@@ -147,11 +160,19 @@ Navigator.pop(context);
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _saveMember,
-
-                  child: Text(
-                    widget.docId != null ? 'Update Member' : 'Add Member',
-                  ),
+                  onPressed: _isSaving ? null : _saveMember,
+                  child: _isSaving
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          widget.docId != null ? 'Update Member' : 'Add Member',
+                        ),
                 ),
               ),
             ],
