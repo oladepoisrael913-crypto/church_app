@@ -1,4 +1,5 @@
 import express from "express";
+require("dotenv").config();
 import mongoose from "mongoose";
 
 const app = express();
@@ -12,12 +13,10 @@ app.get("/api/health", (req, res) => {
 });
 
 const compass_string = "mongodb://localhost:27017/oladepoisrael913_db";
-const atlas_string =
-  process.env.ATLAS_STRING ||
-  "mongodb+srv://oladepoisrael913_db:MyPassword.com@cluster0.u9mlh5i.mongodb.net/oladepoisrael913_db?appName=Cluster0";
+const atlas_string = process.env.MONGO_URI;
 
-mongoose
-  .connect(atlas_string)
+mongoose.connect(atlas_string)
+
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () => {
